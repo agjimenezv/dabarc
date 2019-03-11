@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Permutaciones">
+  <meta name="author" content="">
+
+  <title>Permutaciones</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+  
+  <style>
+  .modal-header, .close {
+    background-color: #1d809f;
+    color:white !important;
+    text-align: center;
+  }
+  </style>
+  
+  <script language="javascript" type="text/javascript">
+	var conta = 0;
+	
+	function permuta(cad_a, cad_b) {
+		var divResPerm  = document.getElementById('permutaciones');
+		if( cad_b.length == 1 ) {
+			divResPerm.innerHTML += ++conta + " = " + cad_a + cad_b + "<br>";
+			return;
+		}
+		for( var i = 0; i < cad_b.length; i++ ) {
+			permuta( cad_a + cad_b.charAt(i), cad_b.replace(cad_b.charAt(i),""));
+		}
+		return;
+	}
+	
+	function showModal(cad_a, cad_b) {
+		var titlePerm = document.getElementById('cadena').value;
+		var modal = $('#permModal').modal({})
+		modal.find('.modal-title').text('Las permutaciones para "' + titlePerm + '" son:');
+	}
+	
+	function getPermutation() {
+		totPerm = 0;
+		conta = 0;
+		document.getElementById('permutaciones').innerHTML = '';
+		var cadena = document.getElementById('cadena').value;
+		cadena = sortCadena(cadena);
+		if( cadena != '') {
+			var brepeticion  = document.getElementById('repeticion').checked;
+			if( brepeticion ) {
+				cadena = uniqueCadena(cadena);
+			}
+			if( cadena.length > 7) {
+				if( confirm("¿El número de permutaciones que se generaran son artisisisimas, de verdad desea continuar?") ) {
+					permuta("", cadena);
+					showModal();
+				}
+			} else {
+				permuta("", cadena);
+				showModal();
+			}
+		} else {
+			alert("Debe ingresar la cadena a permutar.");
+		}
+	}
+	
+	function sortCadena(cadena) {
+		var arrCad = cadena.split("");
+		var arrSort = arrCad.sort(function (elem1, elem2) {return elem1.localeCompare(elem2);}).join("");
+		return arrSort.toString();
+	}
+	
+	Array.prototype.unique=function(a){
+		return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+	});
+	
+	function uniqueCadena(cadena) {
+		var arrCad = cadena.split("");
+		var arrUnique = arrCad.unique().join("");
+		return arrUnique.toString();
+	}
+	
+	function showTotPerm(cadena) {
+		cadena.value = cadena.value.toLowerCase();
+		var totPerm = calculatePerm(cadena.value);
+		var totPermS = calculatePerm(uniqueCadena(cadena.value));
+		document.getElementById('totPermConRep').innerHTML = 'Se generarán un total de ' + totPerm + ' permutaciones con repeticion.';
+		document.getElementById('totPermConSRep').innerHTML = 'Se generarán un total de ' + totPermS + ' permutaciones sin repeticion.';
+	}
+	
+	function calculatePerm(cadena){
+		var totPerm = cadena.length;
+		for( var i = cadena.length-1; i > 0 ; i-- ) {
+			totPerm = totPerm * i;
+		}
+		return totPerm;
+	}
+  </script>
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <a class="menu-toggle rounded" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a class="js-scroll-trigger" href="#page-top">Permutaciones</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#page-top">Home</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#about">About</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#example">Ejemplo</a>
+      </li>
+	  <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#test">Prueba</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead d-flex">
+    <div class="container text-center my-auto">
+      <h1 class="mb-1">Permutaciones</h1>
+      <h3 class="mb-5">
+        <em>En matemáticas, una permutación es la variación del orden o posición de los elementos de un conjunto ordenado o una tupla.</em>
+      </h3>
+      <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Continuar</a>
+    </div>
+    <div class="overlay"></div>
+  </header>
+
+  <!-- About -->
+  <section class="content-section bg-light" id="about">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h2>Existen 2 tipos de permutaciones:</h2>
+          <p class="lead mb-5">1. Permutaciones con repetición.</p>
+		  <p class="lead mb-5">2. Permutaciones sin repetición.</p>
+          <a class="btn btn-dark btn-xl js-scroll-trigger" href="#example">Continuar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ejemplo -->
+  <section class="content-section bg-primary text-white text-center" id="example">
+    <div class="container">
+      <div class="content-section-heading">
+        <h3 class="text-secondary mb-0"></h3>
+        <h2 class="mb-5">Ejemplo</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <a class="portfolio-item" href="#test">
+            <span class="caption">
+              <span class="caption-content">
+                <h2>Probar</h2>
+              </span>
+            </span>
+            <img class="img-fluid" src="img/permutaciones.jpg" alt="Permutaciones">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Test -->
+  <section class="callout" id="test">
+    <div class="container text-center">
+      <h4 class="mx-auto mb-5">Para ver un ejemplo de esto a continuacion ingresa una cadena y veras las posibles varaciones de cada uno de los caracteres que conforman la cadena.</h4>
+	  <h6 class="mx-auto mb-5">*Elige si quieres con repeticion o sin repeticion, por default arroja el resultado con repetición</h6>
+	  <h6 class="mx-auto mb-5">*Te recomendamos que la longitud de la cadena sea menor a 5 caracteres.</h6>
+	  <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+		  <form>
+			<div class="form-row">
+			  <div class="col-12 col-md-9 mb-2 mb-md-0">
+				<input type = "text" class="form-control form-control-sm" name="cadena" id="cadena" onkeyup="showTotPerm(this);" placeholder="Ingresa una cadena"/><br>
+			  </div>
+			  <div class="col-12 col-md-3">
+				<button type="button" class="btn btn-block btn-sm btn-primary" onclick="getPermutation();">Probar</button>
+			  </div>
+			</div>
+			<div class="form-row">
+				<div class="col-12">
+					<input type="checkbox" class="form-check-input" name="repeticion" id="repeticion" />
+					<label for="repeticion" class="form-check-label">Sin Repeticion</label>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-12">
+					<div id="totPermConRep"></div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-12">
+					<div id="totPermConSRep"></div>
+				</div>
+			</div>
+		  </form>
+		</div>
+    </div>
+  </section>
+
+  <div class="modal fade" id="permModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="permModalTitle">Modal title</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body" style="padding:20px 50px;">
+			<div id="permutaciones"></div>
+		  </div>
+		</div>
+	  </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <p class="text-muted small mb-0">Gracias por visitar la página</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/stylish-portfolio.min.js"></script>
+
+</body>
+
+</html>
